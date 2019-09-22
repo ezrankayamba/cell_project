@@ -1,8 +1,9 @@
 {% extends "base/base.html" %}
+{% load humanize %}
 {% block content %}
     {% if user.is_authenticated %}
         {% if user.celluser %}
-            <div class="card">
+            <div class="card mb-2">
               <div class="card-header">{{ user.celluser.cell_group }}</div>
               <div class="card-body row">
                  <div class="menu-btn col-md-4">
@@ -15,6 +16,25 @@
                      <a class="btn" href="{% url 'create-member' %}">Members <span class="badge badge-info">{{ user.celluser.cell_group.member_set.count }}</span></a>
                  </div>
               </div>
+              {% if contr_summary %}
+                <div id="home-summary" class="card-footer text-muted">
+                    Summary
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Name</th>
+                            <th>Count</th>
+                            <th>Amount</th>
+                        </tr>
+                        {% for m in contr_summary %}
+                            <tr>
+                                <td>{{ m.name }}</td>
+                                <td>{{ m.p_count }}</td>
+                                <td>{{ m.p_total|intcomma }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+              {% endif %}
             </div>
         {% else %}
             <p>This application is for management of cell groups. However, you are not linked to any cell group right now!</p>

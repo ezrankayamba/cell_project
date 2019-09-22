@@ -7,10 +7,18 @@ from django.contrib.auth.models import User
 from django import forms
 # from .forms import CellGroupForm
 from django.urls import reverse
+from django.db.models import Avg, Count, Min, Sum
 
 
 def home(request):
-    context = {}
+    cell_user = request.user.celluser
+    contr_summary = []
+    if cell_user:
+        contr_summary = Contribution.objects.filter(cell_group=request.user.celluser.cell_group).annotate(
+            p_count=Count('payment'), p_total=Sum('payment__amount'))
+    context = {
+        'contr_summary': contr_summary
+    }
     return render(request, 'cell/home.html', context)
 
 

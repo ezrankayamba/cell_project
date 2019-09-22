@@ -115,3 +115,6 @@ a.article-title:hover {
   border: 1px solid #f3f3f3;
   width: 100%;
 }
+#home-summary.card-footer{
+  background: #fcfcfc;
+}

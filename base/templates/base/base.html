@@ -31,7 +31,9 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-                  <p>{{ user }}</p>
+                <a class="nav-item nav-link" href="{% url 'profile' %}"><span class="mr-2 oi oi-person"></span> My Profile</a>
+                <a class="nav-item nav-link" href="{% url 'change-password' %}"><span class="mr-2 oi oi-lock-locked"></span> Change Password</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}"><span class="mr-2 oi oi-account-logout"></span> Logout</a>
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                 <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
@@ -53,7 +55,7 @@
         </div>
         <div class="col-md-4">
           <div class="small content-section">
-            <h5>Cell App</h5>
+            <!-- <h5>Cell App</h5> -->
             {% if user.is_authenticated %}
               <p class='text-muted'>Recent activities
                 <ul class="list-group">
@@ -62,10 +64,6 @@
                    {% endfor %}
                 </ul>
               </p>
-              <h6 class="m-0 p-0">Logged in as: {{ user }}</h6>
-              <a class="pl-0 pb-0 nav-item nav-link" href="{% url 'profile' %}"><span class="mr-2 oi oi-person"></span> My Profile</a>
-              <a class="pl-0 pb-0 nav-item nav-link" href="{% url 'change-password' %}"><span class="mr-2 oi oi-lock-locked"></span> Change Password</a>
-              <a class="pl-0 pb-0 nav-item nav-link" href="{% url 'logout' %}"><span class="mr-2 oi oi-account-logout"></span> Logout</a>
             {% else %}
               <p>Not logged in</p>
             {% endif %}

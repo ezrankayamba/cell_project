@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        body{
+            background: #f1f1f1;
+        }
+        .login,
+        .ii a[href]{
+            background: #3333FF;
+            color: #f1f1f1;
+            border: none;
+            padding: .4rem 1rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:link, a:visited {
+            color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h4>Congratutaions!</h4>
+    <p>You have been successfully registered with username: {{ user.username }}</p>
+    {% if user.companyuser %}
+        <p>Your company is <b>{{ user.companyuser.company }}</b></p>
+    {% endif %}
+    <a class="login" style="color: #f1f1f1;" href="https://www.pincomtz.net{% url 'login' %}">Login</a>
+</body>
+</html>

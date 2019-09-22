@@ -1,0 +1,27 @@
+{% extends "base/base.html" %}
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if user.celluser %}
+            <div class="card">
+              <div class="card-header">{{ user.celluser.cell_group }}</div>
+              <div class="card-body row">
+                 <div class="menu-btn col-md-4">
+                     <a class="btn" href="{% url 'create-payment' %}">Payments <span class="badge badge-info">{{ user.celluser.cell_group.payment_set.count }}</span></a>
+                 </div>
+                 <div class="menu-btn col-md-4">
+                     <a class="btn" href="{% url 'create-contribution' %}">Contributions <span class="badge badge-info">{{ user.celluser.cell_group.contribution_set.count }}</span></a>
+                 </div>
+                 <div class="menu-btn col-md-4">
+                     <a class="btn" href="{% url 'create-member' %}">Members <span class="badge badge-info">{{ user.celluser.cell_group.member_set.count }}</span></a>
+                 </div>
+              </div>
+            </div>
+        {% else %}
+            <p>This application is for management of cell groups. However, you are not linked to any cell group right now!</p>
+            <a class="btn btn-primary btn-sm" href="{% url 'create-cell-group' %}">Create new cell group</a>
+        {% endif %}
+    {% else %}
+        <p>You are not logged in yet!</p>
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+{% endblock content%}

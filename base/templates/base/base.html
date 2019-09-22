@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+     <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/font/css/open-iconic-bootstrap.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'base/main.css' %}"/>
+    {% if title %}
+        <title>Cell App - {{ title }}</title>
+    {% else %}
+        <title>Cell App</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'home' %}">Cell App</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if user.is_authenticated %}
+                  <p>{{ user }}</p>
+              {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8 small">
+          {%  if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+          {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+          <div class="small content-section">
+            <h5>Cell App</h5>
+            {% if user.is_authenticated %}
+              <p class='text-muted'>Recent activities
+                <ul class="list-group">
+                   {% for log in log_entries %}
+                      <li class="list-group-item list-group-item-light">{{ log }}</li>
+                   {% endfor %}
+                </ul>
+              </p>
+              <h6 class="m-0 p-0">Logged in as: {{ user }}</h6>
+              <a class="pl-0 pb-0 nav-item nav-link" href="{% url 'profile' %}"><span class="mr-2 oi oi-person"></span> My Profile</a>
+              <a class="pl-0 pb-0 nav-item nav-link" href="{% url 'change-password' %}"><span class="mr-2 oi oi-lock-locked"></span> Change Password</a>
+              <a class="pl-0 pb-0 nav-item nav-link" href="{% url 'logout' %}"><span class="mr-2 oi oi-account-logout"></span> Logout</a>
+            {% else %}
+              <p>Not logged in</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

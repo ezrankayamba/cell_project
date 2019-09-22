@@ -1,0 +1,47 @@
+{% extends "base/base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="borde-botton mb-2">New Contribution</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <a class="btn btn-outline-info" href="{% url 'home' %}">Cancel</a>
+                <button class="btn btn-primary" type="submmit">Create New Contribution</button>
+            </div>
+        </form>
+    </div>
+    {% if user.is_authenticated %}
+        {% if user.celluser %}
+            {% if user.celluser.cell_group.contribution_set.all %}
+                <h5>List of contributions</h5>
+                <table class="table table-sm table-hover">
+                    <tr>
+                        <th>Name</th>
+                        <th>Date Created</th>
+                        <th>Created By</th>
+                    </tr>
+                    {% for m in user.celluser.cell_group.contribution_set.all %}
+                        <tr>
+                            <td>{{ m.name }}</td>
+                            <td>{{ m.record_date|date:"d/m/y H:i" }}</td>
+                            <td>{{ m.created_by }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No records to display</p>
+            {% endif %}
+        {% else %}
+            <p>This application is for management of cell groups. However, you are not linked to any cell group right now!</p>
+            <a class="btn btn-primary btn-sm" href="{% url 'create-cell-group' %}">Create new cell group</a>
+        {% endif %}
+    {% else %}
+        <p>You are not logged in yet!</p>
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+{% endblock content%}

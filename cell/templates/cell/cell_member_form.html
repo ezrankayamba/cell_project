@@ -6,7 +6,7 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="borde-botton mb-2">New Member</legend>
+                <legend class="borde-botton mb-2">New Member or <a href="{% url 'upload-members' %}">Upload Batch</a></legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
@@ -22,12 +22,14 @@
                 <table class="table table-sm table-hover">
                     <tr>
                         <th>Name</th>
+                        <th>Phone No</th>
                         <th>Date Created</th>
                         <th>Created By</th>
                     </tr>
                     {% for m in user.celluser.cell_group.member_set.all %}
                         <tr>
                             <td>{{ m.name }}</td>
+                            <td>{{ m.phone_no }}</td>
                             <td>{{ m.record_date|date:"d/m/y H:i" }}</td>
                             <td>{{ m.created_by }}</td>
                         </tr>

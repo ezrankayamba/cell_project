@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'auditlog',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,6 @@ EMAIL_HOST_PASSWORD = config.get('EMAIL_PASS')
 SESSION_EXPIRE_SECONDS = 180
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD = 30
+
+#IMPORT & EXPORTS
+IMPORT_EXPORT_USE_TRANSACTIONS = True

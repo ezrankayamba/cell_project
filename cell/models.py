@@ -40,8 +40,10 @@ class Member(models.Model):
     created_by = models.ForeignKey(
         User, on_delete=models.PROTECT, related_name='member_created_by')
     name = models.CharField(max_length=100)
+    phone_no = models.CharField(max_length=20, null=True)
 
     class Meta:
+        unique_together = ('name', 'cell_group',)
         ordering = ['name']
 
     def __str__(self):

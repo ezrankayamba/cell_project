@@ -5,10 +5,5 @@ from .models import CellGroup, CellUser, Member, Contribution, Payment
 from users.models import Role
 
 
-# class CellGroupForm(forms.ModelForm):
-#     class Meta:
-#         model = CellGroup
-#         fields = ['name', 'created_by']
-#         widgets = {
-#             'created_by': forms.HiddenInput,
-#         }
+class MembersUploadForm(forms.Form):
+    members_file = forms.FileField()

@@ -14,7 +14,7 @@ SECRET_KEY = 'bd$%beir&4!mi&eu&iql1-uyk-vu9&dho93&ml82uf1b@5&5on'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.9.252.150','localhost']
+ALLOWED_HOSTS = ['cellapp.nezatech.co.tz', 'localhost']
 
 
 # Application definition

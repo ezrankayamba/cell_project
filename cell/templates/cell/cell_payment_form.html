@@ -24,16 +24,16 @@
                         <th>Contribution</th>
                         <th>Member</th>
                         <th>Amount</th>
-                        <th>Date Created</th>
-                        <th>Created By</th>
+                        <th>Date</th>
+                        <!-- <th>Created By</th> -->
                     </tr>
                     {% for m in user.member.cell_group.payment_set.all %}
                         <tr>
                             <td>{{ m.contribution }}</td>
                             <td>{{ m.member }}</td>
                             <td>{{ m.amount|intcomma }}</td>
-                            <td>{{ m.record_date|date:"d/m/y H:i" }}</td>
-                            <td>{{ m.created_by }}</td>
+                            <td>{{ m.record_date|date:"d/m/Y" }}</td>
+                            <!-- <td>{{ m.created_by }}</td> -->
                         </tr>
                     {% endfor %}
                 </table>

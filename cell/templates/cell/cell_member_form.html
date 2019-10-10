@@ -24,8 +24,8 @@
                         <th>Name</th>
                         <th>Phone No</th>
                         <th>User</th>
-                        <th>Date Created</th>
-                        <th>Created By</th>
+                        <!-- <th>Date Created</th>
+                        <th>Created By</th> -->
                     </tr>
                     {% for m in user.member.cell_group.member_set.all %}
                         <tr>
@@ -38,8 +38,8 @@
                                 <a role="button" class="btn btn-sm btn-outline-secondary" href="{% url 'create-member-user' m.id %}">Add User</a>
                             {% endif %}
                             </td>
-                            <td>{{ m.record_date|date:"d/m/y H:i" }}</td>
-                            <td>{{ m.created_by }}</td>
+                            <!-- <td>{{ m.record_date|date:"d/m/y H:i" }}</td>
+                            <td>{{ m.created_by }}</td> -->
                         </tr>
                     {% endfor %}
                 </table>

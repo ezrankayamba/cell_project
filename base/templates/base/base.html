@@ -31,9 +31,10 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="{% url 'profile' %}"><span class="mr-2 oi oi-person"></span> My Profile</a>
-                <a class="nav-item nav-link" href="{% url 'change-password' %}"><span class="mr-2 oi oi-lock-locked"></span> Change Password</a>
-                <a class="nav-item nav-link" href="{% url 'logout' %}"><span class="mr-2 oi oi-account-logout"></span> Logout</a>
+                <a class="nav-item nav-link" href="{% url 'home' %}"><span class="oi oi-people"></span> Cell - {{ user.member.cell_group }}</a>
+                <a class="nav-item nav-link" href="{% url 'profile' %}"><span class="mr-2 oi oi-person"></span>My Profile</a>
+                <a class="nav-item nav-link" href="{% url 'change-password' %}"><span class="mr-2 oi oi-lock-locked"></span>Change Password</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}"><span class="mr-2 oi oi-account-logout"></span>Logout</a>
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                 <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>

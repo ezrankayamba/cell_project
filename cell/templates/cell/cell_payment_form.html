@@ -16,9 +16,9 @@
         </form>
     </div>
     {% if user.is_authenticated %}
-        {% if user.celluser %}
-            {% if user.celluser.cell_group.payment_set.all %}
-                <h5>List of members</h5>
+        {% if user.member %}
+            {% if user.member.cell_group.payment_set.all %}
+                <h5>List of payments</h5>
                 <table class="table table-sm table-hover">
                     <tr>
                         <th>Contribution</th>
@@ -27,7 +27,7 @@
                         <th>Date Created</th>
                         <th>Created By</th>
                     </tr>
-                    {% for m in user.celluser.cell_group.payment_set.all %}
+                    {% for m in user.member.cell_group.payment_set.all %}
                         <tr>
                             <td>{{ m.contribution }}</td>
                             <td>{{ m.member }}</td>

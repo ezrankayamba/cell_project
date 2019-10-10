@@ -16,8 +16,8 @@
         </form>
     </div>
     {% if user.is_authenticated %}
-        {% if user.celluser %}
-            {% if user.celluser.cell_group.contribution_set.all %}
+        {% if user.member %}
+            {% if user.member.cell_group.contribution_set.all %}
                 <h5>List of contributions</h5>
                 <table class="table table-sm table-hover">
                     <tr>
@@ -25,7 +25,7 @@
                         <th>Date Created</th>
                         <th>Created By</th>
                     </tr>
-                    {% for m in user.celluser.cell_group.contribution_set.all %}
+                    {% for m in user.member.cell_group.contribution_set.all %}
                         <tr>
                             <td>{{ m.name }}</td>
                             <td>{{ m.record_date|date:"d/m/y H:i" }}</td>

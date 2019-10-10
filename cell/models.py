@@ -18,27 +18,11 @@ class CellGroup(models.Model):
         return reverse('home')
 
 
-class CellUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    cell_group = models.ForeignKey(CellGroup, on_delete=models.CASCADE)
-    is_admin = models.BooleanField(default=False)
-    record_date = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name='celluser_created_by')
-
-    def __str__(self):
-        return f'{self.user.username}'
-
-    def get_absolute_url(self):
-        return reverse('home')
-
-
 class Member(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     cell_group = models.ForeignKey(CellGroup, on_delete=models.CASCADE)
     record_date = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name='member_created_by')
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='member_created_by')
     name = models.CharField(max_length=100)
     phone_no = models.CharField(max_length=20, null=True)
 
@@ -92,7 +76,6 @@ class Payment(models.Model):
 
 # Audit Logs
 auditlog.register(CellGroup)
-auditlog.register(CellUser)
 auditlog.register(Member)
 auditlog.register(Contribution)
 auditlog.register(Payment)

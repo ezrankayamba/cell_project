@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import CellGroup, CellUser, Member, Contribution, Payment
+from .models import CellGroup, Member, Contribution, Payment
 from django.views.generic.edit import FormView
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
@@ -11,14 +11,18 @@ from django.db.models import Avg, Count, Min, Sum
 from django.http import HttpResponse
 from .resources import MemberResource
 from tablib import Dataset
-from .forms import MembersUploadForm
+from .forms import MembersUploadForm, AddCellUserForm
 
 
 def home(request):
-    cell_user = request.user.celluser if request.user.is_authenticated else None
+    member = None
+    try:
+        member = request.user.member if request.user.is_authenticated else None
+    except Exception as e:
+        print(e)
     contr_summary = []
-    if cell_user:
-        contr_summary = Contribution.objects.filter(cell_group=request.user.celluser.cell_group).annotate(
+    if member:
+        contr_summary = Contribution.objects.filter(cell_group=member.cell_group).annotate(
             p_count=Count('payment'), p_total=Sum('payment__amount'))
     context = {
         'contr_summary': contr_summary
@@ -38,13 +42,13 @@ class CreateCellGroupView(LoginRequiredMixin, CreateView):
 
 class CreateMemberView(LoginRequiredMixin, CreateView):
     model = Member
-    fields = ['name','phone_no']
+    fields = ['name', 'phone_no']
     template_name = 'cell/cell_member_form.html'
 
     def form_valid(self, form):
         user = self.request.user
         form.instance.created_by = user
-        form.instance.cell_group = user.celluser.cell_group
+        form.instance.cell_group = user.member.cell_group
         return super().form_valid(form)
 
 
@@ -56,7 +60,7 @@ class CreateContributionView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         user = self.request.user
         form.instance.created_by = user
-        form.instance.cell_group = user.celluser.cell_group
+        form.instance.cell_group = user.member.cell_group
         return super().form_valid(form)
 
 
@@ -68,7 +72,7 @@ class CreatePaymentView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         user = self.request.user
         form.instance.created_by = user
-        form.instance.cell_group = user.celluser.cell_group
+        form.instance.cell_group = user.member.cell_group
         return super().form_valid(form)
 
 
@@ -82,7 +86,7 @@ class MembersUploadView(FormView):
         mr = MemberResource()
         dataset = Dataset()
         new_members = self.request.FILES['members_file']
-        cell_group_id = self.request.user.celluser.cell_group.id
+        cell_group_id = self.request.user.member.cell_group.id
         user_id = self.request.user.id
 
         data = dataset.load(new_members.read())
@@ -95,6 +99,28 @@ class MembersUploadView(FormView):
             mr.import_data(dataset, dry_run=False)  # Actually import now
         else:
             print('Errors: ', result.row_errors()[0][1][0].error)
+        return super().form_valid(form)
+
+
+class CellUserCreateView(LoginRequiredMixin, FormView):
+    form_class = AddCellUserForm
+    template_name = 'cell/user_form.html'
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        member_id = self.kwargs.get('member_id')
+        kwargs['member'] = Member.objects.get(pk=member_id)
+        return super(CellUserCreateView, self).get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        member_id = self.kwargs.get('member_id')
+        data = form.cleaned_data
+        user = User(username=data['username'], email=data['email'])
+        user.set_password('Cell19')
+        user.save()
+        member = Member.objects.get(pk=member_id)
+        member.user = user
+        member.save()
         return super().form_valid(form)
 
 

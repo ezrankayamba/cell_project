@@ -16,20 +16,28 @@
         </form>
     </div>
     {% if user.is_authenticated %}
-        {% if user.celluser %}
-            {% if user.celluser.cell_group.member_set.all %}
+        {% if user.member %}
+            {% if user.member.cell_group.member_set.all %}
                 <h5>List of members</h5>
                 <table class="table table-sm table-hover">
                     <tr>
                         <th>Name</th>
                         <th>Phone No</th>
+                        <th>User</th>
                         <th>Date Created</th>
                         <th>Created By</th>
                     </tr>
-                    {% for m in user.celluser.cell_group.member_set.all %}
+                    {% for m in user.member.cell_group.member_set.all %}
                         <tr>
                             <td>{{ m.name }}</td>
                             <td>{{ m.phone_no }}</td>
+                            <td>
+                            {% if m.user %}
+                                {{ m.user }}
+                            {% else %}
+                                <a role="button" class="btn btn-sm btn-outline-secondary" href="{% url 'create-member-user' m.id %}">Add User</a>
+                            {% endif %}
+                            </td>
                             <td>{{ m.record_date|date:"d/m/y H:i" }}</td>
                             <td>{{ m.created_by }}</td>
                         </tr>
